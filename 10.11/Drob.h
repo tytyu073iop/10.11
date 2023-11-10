@@ -21,12 +21,13 @@ public:
 	Drob& operator*=(Drob right);
 	Drob& operator/=(Drob right);
 	Drob& operator-();
-	Drob& operator!();
+	Drob operator!() const;
 	std::istream& operator>>(std::istream& stream);
 	std::ostream& operator<<(std::ostream& stream) const;
 	ll n; //Числитель(Верх)
 	ull d; //Знаминатель(низ)
 	double to_double() const;
+	void make_beaty();
 private:
 	
 };
