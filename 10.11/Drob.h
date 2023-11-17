@@ -6,28 +6,38 @@
 
 class Drob
 {
-public:
-	Drob();
+    public:
+     Drob();
 	Drob(ll n, ll d);
-	Drob operator+(Drob right) const;
-	Drob operator-(Drob right) const;
-	Drob operator*(Drob right) const;
-	Drob operator/(Drob right) const;
-	// auto operator<=>(Drob right) const;
+	Drob operator+(const Drob& right) const;
+	Drob operator-(const Drob& right) const;
+	Drob operator*(const Drob& right) const;
+	Drob operator/(const Drob& right) const;
+        bool operator==(const Drob& right) const;
+	int operator<=>(const Drob& right) const;
 	Drob& operator++();
+        Drob operator++(int d);
 	Drob& operator--();
-	Drob& operator+=(Drob right);
-	Drob& operator-=(Drob right);
-	Drob& operator*=(Drob right);
-	Drob& operator/=(Drob right);
-	Drob& operator-();
+        Drob operator--(int d);
+	Drob& operator+=(const Drob& right);
+	Drob& operator-=(const Drob& right);
+	Drob& operator*=(const Drob& right);
+	Drob& operator/=(const Drob& right);
+	Drob operator-() const;
 	Drob operator!() const;
-	std::istream& operator>>(std::istream& stream);
-	std::ostream& operator<<(std::ostream& stream) const;
-	ll n; //Числитель(Верх)
-	ull d; //Знаминатель(низ)
-	double to_double() const;
-	void make_beaty();
-private:
-	
+	// std::istream& operator>>(std::istream& stream);
+	// std::ostream& operator<<(std::ostream& stream) const;
+        friend std::istream& operator>>(std::istream& stream, Drob& right);
+        friend std::ostream& operator<<(std::ostream& stream, const Drob& right);
+	[[nodiscard]] double ToDouble() const;
+        [[nodiscard]] ll GetN() const;
+        [[nodiscard]] ull GetD() const;
+        void SetN(ll a);
+        void SetD(ll d);
+    private:
+     void MakeBeaty();
+     ll n_; //Числитель(Верх)
+     ll d_; //Знаминатель(низ)
 };
+
+

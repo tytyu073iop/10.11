@@ -1,168 +1,178 @@
 #include "Drob.h"
+#include <algorithm>
 #include <iostream>
 #include <numeric>
-#include <algorithm>
 
-void Drob::make_beaty() {
-	ll g = std::gcd(n, d);
-	n /= g;
-	d /= g;
+void Drob::MakeBeaty() {
+	ll const g = std::gcd(n_, d_);
+	n_ /= g;
+	d_ /= g;
 }
 
-Drob::Drob() {
-	
-}
+Drob::Drob() = default; //NOLINT: I dont' give a fuck
 
-Drob::Drob(ll n, ll d) : n(n) {
+Drob::Drob(ll n, ll d) : n_(n), d_(d) {
 	if (d < 0)
 	{
-		-n;
-		-d;
-		d = static_cast<ull>(d);
+		n_ = -n_;
+		d = -d;
+		//d = (d);
 	}
-	else {
-		d = d;
-	}
-	make_beaty();
+	MakeBeaty();
 }
 
-Drob Drob::operator+(Drob right) const {
+bool Drob::operator==(const Drob &right) const {
+    return ((*this - right).n_ == 0);
+}
+
+Drob Drob::operator+(const Drob& right) const {
 	Drob result = Drob();
 	try
 	{
-		result.n = right.d * n + d * right.n;
-		result.d = d * right.d;
+		result.n_ = right.d_ * n_ + d_ * right.n_;
+		result.d_ = d_ * right.d_;
+	}
+	catch (...)
+	{
+		throw "Currently unavaliable";
+        }
+        result.MakeBeaty();
+        return result;
+}
+
+Drob Drob::operator-(const Drob& right) const {
+	Drob result = Drob();
+	try
+	{
+		result.n_ = right.d_ * n_ - d_ * right.n_;
+		result.d_ = d_ * right.d_;
 	}
 	catch (...)
 	{
 		throw "Currently unavaliable";
 	}
-	result.make_beaty();
+	result.MakeBeaty();
 	return result;
 }
 
-Drob Drob::operator-(Drob right) const {
+Drob Drob::operator*(const Drob& right) const {
 	Drob result = Drob();
 	try
 	{
-		result.n = right.d * n - d * right.n;
-		result.d = d * right.d;
-	}
-	catch (...)
-	{
-		throw "Currently unavaliable";
-	}
-	result.make_beaty();
-	return result;
-}
-
-Drob Drob::operator*(Drob right) const {
-	Drob result = Drob();
-	try
-	{
-		result.n = n * right.n;
-		result.d = d * right.d;
+		result.n_ = n_ * right.n_;
+		result.d_ = d_ * right.d_;
 	}
 	catch (...)
 	{
 		throw "Too big numbers";
 	}
-	result.make_beaty();
+	result.MakeBeaty();
 	return result;
 }
 
-Drob Drob::operator/(Drob right) const {
+Drob Drob::operator/(const Drob& right) const {
 	Drob result = Drob();
 	try
 	{
-		result.n = n * right.d;
-		result.d = d * right.n;
+		result.n_ = n_ * right.d_;
+		result.d_ = d_ * right.n_;
 	}
 	catch (...)
 	{
 		throw "Too big numbers";
 	}
-	result.make_beaty();
+	result.MakeBeaty();
 	return result;
 }
 
 Drob& Drob::operator++() {
-	n++;
-	make_beaty();
+	n_++;
+	MakeBeaty();
 	return *this;
 }
 
 Drob& Drob::operator--() {
-	n--;
-	make_beaty();
+	n_--;
+	MakeBeaty();
 	return *this;
 }
 
-Drob& Drob::operator+=(Drob right) {
+Drob& Drob::operator+=(const Drob& right) {
 	try
 	{
-		n = right.d * n + d * right.n;
-		d = d * right.d;
+		n_ = right.d_ * n_ + d_ * right.n_;
+		d_ = d_ * right.d_;
 	}
 	catch (...)
 	{
 		throw "Currently unavaliable";
 	}
-	make_beaty();
+	MakeBeaty();
 	return *this;
 }
 
-Drob& Drob::operator-=(Drob right) {
+Drob& Drob::operator-=(const Drob& right) {
 	try
 	{
-		n = right.d * n - d * right.n;
-		d = d * right.d;
+		n_ = right.d_ * n_ - d_ * right.n_;
+		d_ = d_ * right.d_;
 	}
 	catch (...)
 	{
 		throw "Currently unavaliable";
 	}
-	make_beaty();
+	MakeBeaty();
 	return *this;
 }
 
-Drob& Drob::operator*=(Drob right) {
+Drob& Drob::operator*=(const Drob& right) {
 	try
 	{
-		n = n * right.n;
-		d = d * right.d;
+		n_ = n_ * right.n_;
+		d_ = d_ * right.d_;
 	}
 	catch (...)
 	{
 		throw "Too big numbers";
 	}
-	make_beaty();
+	MakeBeaty();
 	return *this;
 }
 
-Drob& Drob::operator/=(Drob right) {
+Drob& Drob::operator/=(const Drob& right) {
 	try
 	{
-		n = n * right.d;
-		d = d * right.n;
+		n_ = n_ * right.d_;
+		d_ = d_ * right.n_;
 	}
 	catch (...)
 	{
 		throw "Too big numbers";
 	}
-	make_beaty();
+	MakeBeaty();
 	return *this;
 }
 
-std::ostream& Drob::operator<<(std::ostream& stream) const {
-	stream << n << "/" << d;
+std::ostream& operator<<(std::ostream& stream, const Drob& right) {
+	stream << right.n_ << "/" << right.d_;
+        return stream;
 }
 
-std::istream& Drob::operator>>(std::istream& stream) {
-	stream >> n >> d;
-	make_beaty();
+std::istream& operator>>(std::istream& stream, Drob& right) {
+	stream >> right.n_ >> right.d_;
+	right.MakeBeaty();
+        return stream;
 }
 
-Drob operator!() const{
+int Drob::operator<=>(const Drob& right) const {
+    Drob const temp = *this - right;
+    return static_cast<int>(temp.n_);
+}
 
+double Drob::ToDouble() const {
+    return static_cast<double>(n_)/static_cast<double>(d_);
+}
+
+Drob Drob::operator!() const {
+    return {d_, n_};
 }
