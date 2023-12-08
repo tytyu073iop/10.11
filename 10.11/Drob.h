@@ -31,7 +31,7 @@ class Drob
         friend std::ostream& operator<<(std::ostream& stream, const Drob& right);
 	[[nodiscard]] double ToDouble() const;
         [[nodiscard]] ll GetN() const;
-        [[nodiscard]] ull GetD() const;
+        [[nodiscard]] ll GetD() const;
         void SetN(ll a);
         void SetD(ll d);
     private:
